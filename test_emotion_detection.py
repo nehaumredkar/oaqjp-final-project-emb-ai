@@ -1,33 +1,35 @@
-"""Unit tests for the Emotion Detection package."""
+import unittest
 
-from EmotionDetection import emotion_detector
+from EmotionDetection.emotion_detection import emotion_detector
 
 
-def test_emotion_detector():
-    """Test the emotion_detector function."""
+class TestEmotionDetector(unittest.TestCase):
+    """Unit tests for emotion detection."""
 
-    test_cases = {
-        "I am glad this happened": "joy",
-        "I am really mad about this": "anger",
-        "I feel disgusted just hearing about this": "disgust",
-        "I am so sad about this": "sadness",
-        "I am really afraid that this will happen": "fear"
-    }
+    def test_joy(self):
+        response = emotion_detector("I am glad this happened")
+        self.assertEqual(response["dominant_emotion"], "joy")
 
-    for statement, expected_emotion in test_cases.items():
-        response = emotion_detector(statement)
+    def test_anger(self):
+        response = emotion_detector("I am really mad about this")
+        self.assertEqual(response["dominant_emotion"], "anger")
 
-        if response["dominant_emotion"] == expected_emotion:
-            print(
-                f"PASS: '{statement}' -> {response['dominant_emotion']}"
-            )
-        else:
-            print(
-                f"FAIL: '{statement}' -> "
-                f"Expected {expected_emotion}, "
-                f"Got {response['dominant_emotion']}"
-            )
+    def test_disgust(self):
+        response = emotion_detector(
+            "I feel disgusted just hearing about this"
+        )
+        self.assertEqual(response["dominant_emotion"], "disgust")
+
+    def test_sadness(self):
+        response = emotion_detector("I am so sad about this")
+        self.assertEqual(response["dominant_emotion"], "sadness")
+
+    def test_fear(self):
+        response = emotion_detector(
+            "I am really afraid that this will happen"
+        )
+        self.assertEqual(response["dominant_emotion"], "fear")
 
 
 if __name__ == "__main__":
-    test_emotion_detector()
+    unittest.main()
