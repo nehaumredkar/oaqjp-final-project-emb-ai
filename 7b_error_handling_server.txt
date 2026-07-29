@@ -1,22 +1,30 @@
-"""Flask server for the Emotion Detection application."""
+"""Flask server for Emotion Detection application."""
 
-from flask import Flask, render_template, request
+from flask import Flask
+from flask import render_template
+from flask import request
+
 from EmotionDetection import emotion_detector
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def render_index_page():
-    """Render the application's home page."""
+def home():
+    """
+    Render the home page.
+    """
     return render_template("index.html")
 
 
 @app.route("/emotionDetector")
 def emotion_detection():
-    """Analyze user text and return the formatted emotion response."""
+    """
+    Analyze the user's text and return formatted emotions.
+    """
 
     text_to_analyze = request.args.get("textToAnalyze")
+
     response = emotion_detector(text_to_analyze)
 
     if response["dominant_emotion"] is None:
